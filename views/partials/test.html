@@ -1,0 +1,59 @@
+<div>
+  <p id='mes2'></p>
+  <p id='mes'></p>
+  <div>
+    <!--onclick="playSound2(); this.onclick=null;"-->
+    <button class="buttonPLayStop" onclick="playSound2(); this.onclick=null;">PLAY</button>
+
+
+    <script>
+
+
+
+      //	 socket.emit('chat message', 'test from client');
+
+      function playSound2() {
+
+
+
+
+
+        ss(socket).emit('ready', 'Client ready, send me a stream...');
+        ss(socket).on('sending', function (stream, d) {
+          //  console.log(stream);
+
+          var blob = new Blob([stream], { 'type': 'aac' });
+
+          let sound = document.createElement('audio');
+          sound.src = window.URL.createObjectURL(blob);
+          document.body.appendChild(sound);
+
+
+          var playPromise = sound.play();
+
+
+          if (playPromise !== undefined) {
+            playPromise.then(function () {
+
+            }).catch(function (error) {
+
+            });
+          }
+
+        });
+
+      }
+
+      /*socket.on('chat message', function(msg) {
+        console.log(msg);
+         var item = document.getElementById('mes2');
+         item.textContent = msg;
+       });*/
+
+
+
+
+    </script>
+  </div>
+
+</div>

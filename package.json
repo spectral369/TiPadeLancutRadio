@@ -1,0 +1,28 @@
+{
+  "name": "TiPadeLancutRadio",
+  "version": "1.0.0",
+  "description": "test version for radio",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "radio"
+  ],
+  "author": "spectral369",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.0",
+    "@hapi/inert": "^6.0.3",
+    "dotenv": "^8.2.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "handlebars": "4.7.7",
+    "neo-blessed": "^0.2.0",
+    "serve-favicon": "^2.5.0",
+    "socket.io": "^3.1.2",
+    "socket.io-stream": "^0.5.3",
+    "throttle": "^1.0.3",
+    "vision": "^5.4.4",
+    "ytdl-core": "^4.5.0"
+  }
+}

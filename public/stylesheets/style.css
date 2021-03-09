@@ -1,0 +1,54 @@
+html{
+    scroll-behavior: smooth;
+  }
+  body {
+    background: url("/public/images/background.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  }
+  .navBar
+  {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+  }
+  .navBar .LogoBar
+  {
+    width: 70px;
+  }
+  .navBar a
+  {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    padding: 15px 15px;
+    text-decoration: none;
+    font-size: 40px;
+  }
+  .sizeEqualizer
+  {
+   
+    width: 30%;
+  }
+  .footer
+  {
+    color: #f2f2f2;
+    overflow: hidden;
+    background-color: #333;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  .buttonPLayStop
+  {
+    font-size: 30px;
+    border-radius: 9999px;
+  }
+  
