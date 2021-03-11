@@ -50,8 +50,8 @@ const plugin = {
         return h
           .response(fs.createReadStream(filePath))
           .header("Content-Length", total)
-          .header("Content-Type", "video/mp4")
-          .type("video/mp4");
+          .header("Content-Type", "audio/webm;codes=opus")
+          .type("audio/webm;codecs=opus");
       },
     });
 
@@ -84,6 +84,34 @@ const plugin = {
         },
       },
     });
+    server.route({
+      method: "GET",
+      path: "/admin",
+      handler: (request, reply) => {
+        var data = { message: "Hello from Future Studio" };
+
+        return reply.view("./admin.html", data);
+     //  reply.view('./admin.html', {}, { layout: 'admin' });
+      },
+    });
+
+
+    server.route({
+      method: "POST",
+      path: "/addsong",
+      config: {
+        payload: {
+            output: 'data'
+        }
+    },
+    handler: function (request, response){
+      var ytlink = request.payload.ytlink;
+      Users.addSong(ytlink);
+      return "success";
+    }
+    });
+
+
   },
 };
 

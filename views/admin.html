@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/public/stylesheets/style.css" />
+
+<script
+    type="text/javascript"
+    src="http://localhost:3000/socket.io/socket.io.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="/javascripts/socket.io-stream.js"
+  ></script>
+  <script
+    type="text/javascript"
+    src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"  
+  ></script>
+  <script>
+    var socket = io();
+    $('#messages').submit(function() {
+
+$.post("/addsong", {
+    ytlink:  $('#ytlink').val()
+  })
+  .done(function(data) {
+  //  alert("Data Loaded: " + data); // change for whatever callback you want
+    console.log(data);
+  });
+
+return false;
+});
+  </script>
+
+  <div>
+    <form id="addsong" action="/addsong" method="POST">
+
+        <br>
+        <input type="text" name="ytlink" placeholder="yt link please">
+        <br>
+      
+        <input type="submit" value="Send">
+      
+      </form>
+
+  </div>
+
+
+</head>

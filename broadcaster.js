@@ -7,20 +7,21 @@ const Fs = require("fs");
 const Throttle = require("throttle");
 //const { OpusStreamDecoder } = require('opus-stream-decoder');
 const FFmpeg = require("fluent-ffmpeg");
+const { SQueue } = require("./queue.js");
 
 let counter = 0;
 
 class Users {
   constructor() {
     this._sinks = new Map(); // lista de useri
-    this._songs = []; // test queue
+    this._songs = new SQueue();
     this._currentSong = null;
     this.stream = new EventEmitter();
   }
 
   init() {
-    this._currentSong = ytdl(url1, { quality: "highestaudio" });
-    this.createAndAppendToSongs(this._currentSong);
+    //this._currentSong = ytdl(url1, { quality: "highestaudio" });
+    this._songs.enqueue(url1);
   }
 
   makeResponseSink() {
@@ -41,10 +42,14 @@ class Users {
   }
 
   _playLoop() {
-    console.log(++counter);
 
+
+    console.log(++counter);
+    if(this._songs.size()>0)
+    this._currentSong =  this._songs.dequeue();
     var bitrate = 143360;
-    let audi = ytdl(url1, { quality: "highestaudio" });
+    let audi = ytdl(this._currentSong, { quality: "highestaudio" });
+    console.log('songs remaining:'+this._songs.size());
 
     var throttleTransformable = new Throttle(bitrate / 8); //test
     throttleTransformable.on("data", (chunk) =>
@@ -56,12 +61,12 @@ class Users {
 
    var str = new FFmpeg(audi)
       .audioCodec("libfdk_aac")
-      .format("adts")
-      .outputOptions(["-movflags faststart"]);
+      .format("adts");
+
    /*   var str = new FFmpeg(audi)
       .audioCodec("libopus")
-      .format("ogg")
-      .outputOptions(["-movflags faststart"]);*/
+      .format("ogg");
+    //  .outputOptions(["-movflags faststart"]);*/
     var ffstream = str.pipe();
     ffstream.on("data", function (chunk) {
       // console.log('ffmpeg just wrote ' + chunk.length + ' bytes');
@@ -77,16 +82,15 @@ class Users {
     this._playLoop();
   }
 
-  createAndAppendToSongs(song) {
-    this._songs.push(song);
+  addSong(link){
+    this._songs.enqueue(link);
+  
   }
-  createAndAppendToSongs(song) {
-    this._songs.push(song);
+
+  getQueueSize(){
+    return this._songs.size();
   }
-  removeFromSongs(index) {
-    const adjustedIndex = this._boxChildrenIndexToSongsIndex(index);
-    return this._songs.splice(adjustedIndex, 1);
-  }
+
 }
 
 exports.Users = new Users();

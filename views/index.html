@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 
 <head>
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="/public/stylesheets/style.css" />
+  <!-- <script
+  type="text/javascript"
+  src="public/audio5.js"
+></script>-->
   <script
     type="text/javascript"
     src="http://localhost:3000/socket.io/socket.io.js"
   ></script>
-  <script
+  <!--<script
     type="text/javascript"
     src="/javascripts/socket.io-stream.js"
-  ></script>
+  ></script>-->
   <script
     type="text/javascript"
     src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
-    
   ></script>
   <script>
     var socket = io();
@@ -28,7 +30,7 @@
       background-size: 50% 50%;
       background-position: center;
     }
-    .play {
+    .buttonPLayStop {
       background: url("https://image.flaticon.com/icons/png/512/0/375.png")
         no-repeat;
     }
@@ -39,31 +41,72 @@
     }
   </style>
 </head>
+
 <div class="navBar">
+  <a><img src="/public/images/logo.png" class="LogoBar" /></a>
+  <a><button id="play-music-button" class="buttonPLayStop"></button></a>
   <audio id="music" autostart="0" autostart="false" preload="none">
-    <source src="/stream" type="audio/aac" />
+    <source src="/stream" />
   </audio>
-  <button id="play-music-button" class="play"></button>
-
   <script>
-    $(document).ready(function () {
-      var music = document.getElementById("music");
-      var play_music_button = document.getElementById("play-music-button");
+      socket.on('chat message', function(msg) {
+           // alert('chat'+msg);
+            console.log(msg);
+           });
 
-      function playAudio() {
-        if (music.paused) {
-          music.play();
-          play_music_button.className = "pause";
-        } else {
-          music.pause();
-          play_music_button.className = "play";
-        }
-        music.addEventListener("ended", function () {
-          play_music_button.className = "play";
+
+        $(document).ready(function () {
+
+
+
+          /*
+     ss(socket).emit('ready', 'Client ready, send me a stream...');
+            ss(socket).on('sending', function (stream, d) {
+              //  console.log(stream);
+
+              var blob = new Blob([stream], { 'type': 'aac' });
+
+              let sound = document.createElement('audio');
+              sound.src = window.URL.createObjectURL(blob);
+              document.body.appendChild(sound);
+
+
+              var playPromise = sound.play();
+
+
+              if (playPromise !== undefined) {
+                playPromise.then(function () {
+
+                }).catch(function (error) {
+
+                });
+              }
+
+            });
+
+
+
+          */
+          var music = document.getElementById("music");
+          var play_music_button = document.getElementById("play-music-button");
+
+          function playAudio() {
+
+
+
+            if (music.paused) {
+              music.play();
+              play_music_button.className = "pause";
+            } else {
+              music.pause();
+              play_music_button.className = "play";
+            }
+            music.addEventListener("ended", function () {
+              play_music_button.className = "play";
+            });
+          }
+          play_music_button.addEventListener("click", playAudio);
         });
-      }
-      play_music_button.addEventListener("click", playAudio);
-    });
   </script>
   <a class="sizeEqualizer">EQUALIZER</a>
   <a href="#info">INFO</a>

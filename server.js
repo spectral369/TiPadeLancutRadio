@@ -32,10 +32,14 @@ void (async function startApp() {
       engines: {
         html: require("handlebars"),
       },
-      path: "views",
+     /* path: "views",
       layoutPath: "views/layout",
       layout: "default",
-      partialsPath: "views/partials",
+      partialsPath: "views/partials",*/
+      path: Path.join(__dirname, 'views'),
+      layoutPath: Path.join(__dirname, 'views/layout'),
+      layout: false,
+      partialsPath: Path.join(__dirname, 'views/partials')
     });
     await server.register(StaticFilePlugin);
     await server.register(Routes);
