@@ -46,6 +46,7 @@ const plugin = {
         var filePath = "./test.webm";
         var stat = fs.statSync(filePath);
         var total = stat.size;
+        
 
         return h
           .response(fs.createReadStream(filePath))
@@ -64,6 +65,10 @@ const plugin = {
 
         request.app.sinkId = id;
         console.log("user added", request.app);
+     //   var minutes = Math.floor(Users.songsLength / 60);
+       // var seconds = Users.songsLength  - minutes * 60;
+       // console.log("minute: ", minutes, "secs: ", seconds);
+
 
         return h
           .response(responseSink)

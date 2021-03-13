@@ -2,26 +2,30 @@ const EventEmitter = require("events");
 const PassThroughStream = require("stream").PassThrough;
 
 const ytdl = require("ytdl-core");
-const url1 = "https://www.youtube.com/watch?v=WNeLUngb-Xg";
+const url1 = "https://www.youtube.com/watch?v=M-mtdN6R3bQ"; //"https://www.youtube.com/watch?v=WNeLUngb-Xg";
 const Fs = require("fs");
 const Throttle = require("throttle");
 //const { OpusStreamDecoder } = require('opus-stream-decoder');
 const FFmpeg = require("fluent-ffmpeg");
 const { SQueue } = require("./queue.js");
+const yts = require("yt-search");
 
 let counter = 0;
 
 class Users {
   constructor() {
     this._sinks = new Map(); // lista de useri
+    this._songNameList = new Array(); //lista melodii
     this._songs = new SQueue();
     this._currentSong = null;
     this.stream = new EventEmitter();
+    //this.songsLength = 0;
+    this._currentBitrate = 143360; //default
   }
 
   init() {
-    //this._currentSong = ytdl(url1, { quality: "highestaudio" });
-    this._songs.enqueue(url1);
+    this.addSong(url1);
+    //this._songs.enqueue(url1);
   }
 
   makeResponseSink() {
@@ -43,27 +47,37 @@ class Users {
 
   _playLoop() {
 
+    if (this._songs.size() > 0) {
+      this._currentSong = this._songs.dequeue();
+      this._songNameList.pop();
+    }
+    if (this._songs.size() < 1) {
+      this.randomPlaylist()
+        .then((name) => {
+          this.addSong(name);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
-    console.log(++counter);
-    if(this._songs.size()>0)
-    this._currentSong =  this._songs.dequeue();
-    var bitrate = 143360;
     let audi = ytdl(this._currentSong, { quality: "highestaudio" });
-    console.log('songs remaining:'+this._songs.size());
 
-    var throttleTransformable = new Throttle(bitrate / 8); //test
+  
+    var throttleTransformable = new Throttle(this._currentBitrate / 8); //test
     throttleTransformable.on("data", (chunk) =>
       this._broadcastToEverySink(chunk)
     );
+
     throttleTransformable.on("end", () => this._playLoop());
 
     this.stream.emit("play", this._currentSong);
 
-   var str = new FFmpeg(audi)
-      .audioCodec("libfdk_aac")
+    var str = new FFmpeg(audi)
+      .audioCodec("aac") //libfdk_aac
       .format("adts");
 
-   /*   var str = new FFmpeg(audi)
+    /*   var str = new FFmpeg(audi)
       .audioCodec("libopus")
       .format("ogg");
     //  .outputOptions(["-movflags faststart"]);*/
@@ -72,8 +86,8 @@ class Users {
       // console.log('ffmpeg just wrote ' + chunk.length + ' bytes');
     });
     str.on("progress", function (data) {
-      bitrate = data.currentKbps;
-      console.log("curent kbs=" + bitrate);
+      this._currentBitrate = data.currentKbps;
+      console.log("curent kbs=" + this._currentBitrate);
     });
     ffstream.pipe(throttleTransformable);
   }
@@ -82,15 +96,54 @@ class Users {
     this._playLoop();
   }
 
-  addSong(link){
+  addSong(link) {
+    this.getYTInfo(link)
+    .then((name) => {
+
+   //  this.songsLength += name.videoDetails.lengthSeconds;
+      this._songNameList.push(name.videoDetails.title)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    console.log("added new song", link);
     this._songs.enqueue(link);
-  
   }
 
-  getQueueSize(){
-    return this._songs.size();
+
+
+  async getYTInfo(link){
+
+    return await ytdl.getInfo(link);
   }
 
+
+  getQueueSize() {
+    return this._songs.size(); //cate melodii exista atm
+  }
+
+
+  async randomPlaylist() {
+    const r = await yts(this.randomStringSong());
+    const videos = r.videos.slice(0, 1); //nr de video returnate din cautare
+    return videos[0].url;
+
+  }
+
+  randomStringSong() {
+    const keywords = [
+      "mix music",
+      "best of summer hits",
+      "popular summer hits",
+      "music hits new",
+      "summer mix",
+      "dj dark",
+      "rammor mix",
+    ];
+    const randomElement = Math.floor(Math.random() * keywords.length);
+
+    return keywords[randomElement];
+  }
 }
 
 exports.Users = new Users();
