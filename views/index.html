@@ -44,7 +44,7 @@
 
 <div class="navBar">
   <a><img src="/public/images/logo.png" class="LogoBar" /></a>
-  <a><button id="play-music-button" class="buttonPLayStop"></button></a>
+  <a><button id="play-music-button"  class="buttonPLayStop"></button></a>
   <audio id="music" autostart="0" autostart="false" preload="none">
     <source src="/stream" />
   </audio>
@@ -106,9 +106,23 @@
             });
           }
           play_music_button.addEventListener("click", playAudio);
+          move();
         });
+
+        
+
+
+
+
   </script>
-  <a class="sizeEqualizer">EQUALIZER</a>
+  <!--<a class="sizeEqualizer">EQUALIZER</a>-->
+  <a><div class="equalizer">
+    <div class="equalizer-bar"></div>
+    <div class="equalizer-bar"></div>
+    <div class="equalizer-bar"></div>
+    <div class="equalizer-bar"></div>
+    <div class="equalizer-bar"></div>
+    </div></a>
   <a href="#info">INFO</a>
   <a href="#songhistory">SONG HISTORY</a>
   <a>ADMIN MESSAGE</a>
@@ -127,3 +141,17 @@
 <div class="footer">
   <p>salut</p>
 </div>
+
+<script>
+var bars = [].slice.call(document.querySelectorAll('.equalizer-bar'))
+
+function move() {
+  setTimeout(function() {
+    requestAnimationFrame(move);
+
+    bars.forEach(function(bar, index) {
+      bar.style.transform = 'scaleY(' + Math.random() + ')';
+    })
+   }, 150);
+}
+</script>

@@ -16,6 +16,7 @@ class Users {
   constructor() {
     this._sinks = new Map(); // lista de useri
     this._songNameList = new Array(); //lista melodii
+    this._songsLength = new Array();
     this._songs = new SQueue();
     this._currentSong = null;
     this.stream = new EventEmitter();
@@ -50,6 +51,7 @@ class Users {
     if (this._songs.size() > 0) {
       this._currentSong = this._songs.dequeue();
       this._songNameList.pop();
+      this._songsLength.pop();
     }
     if (this._songs.size() < 1) {
       this.randomPlaylist()
@@ -99,9 +101,8 @@ class Users {
   addSong(link) {
     this.getYTInfo(link)
     .then((name) => {
-
-   //  this.songsLength += name.videoDetails.lengthSeconds;
-      this._songNameList.push(name.videoDetails.title)
+      this._songNameList.push(name.videoDetails.title);
+      this._songsLength.push(name.videoDetails.lengthSeconds);
     })
     .catch((err) => {
       console.log(err);
@@ -143,6 +144,11 @@ class Users {
     const randomElement = Math.floor(Math.random() * keywords.length);
 
     return keywords[randomElement];
+  }
+
+
+  removeSongFromQueue(){
+    this._songs.dequeue(); //test
   }
 }
 

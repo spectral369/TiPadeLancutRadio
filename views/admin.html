@@ -31,7 +31,20 @@ return false;
 });
   </script>
 
+
+</head>
+
+<body>
   <div>
+    <h1 align="center"> admin page</h1><br>
+  </div>
+  <div>
+    <div>
+      <p>CurrentSong Name:{{currentSong}}</p>
+      <P>Songs: {{songsList}}</P>
+      <p>Song Times: {{songsLength}}</p>
+      <p>Song Times: {{queueSize}}</p>
+    </div>
     <form id="addsong" action="/addsong" method="POST">
 
         <br>
@@ -44,5 +57,4 @@ return false;
 
   </div>
 
-
-</head>
+</body>

@@ -14,7 +14,7 @@ const plugin = {
       method: "GET",
       path: "/",
       handler: (request, reply) => {
-        var data = { message: "Hello from Future Studio" };
+        var data = { songsList: Users._songNameList, songsLength:Users._songsLength, currentSong:Users._currentSong };
 
         return reply.view("index.html", data);
       },
@@ -93,7 +93,7 @@ const plugin = {
       method: "GET",
       path: "/admin",
       handler: (request, reply) => {
-        var data = { message: "Hello from Future Studio" };
+        var data = { songsList: Users._songNameList, songsLength:Users._songsLength, currentSong:Users._currentSong, queueSize:Users.queueSize };
 
         return reply.view("./admin.html", data);
      //  reply.view('./admin.html', {}, { layout: 'admin' });
