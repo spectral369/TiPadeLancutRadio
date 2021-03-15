@@ -1,6 +1,7 @@
 html {
   scroll-behavior: smooth;
 }
+
 body {
   background: url("/public/images/background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -8,6 +9,10 @@ body {
   -o-background-size: cover;
   background-size: cover;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  padding-bottom: 3rem;
+  margin: 0;
 }
 .navBar {
   overflow: hidden;
@@ -62,3 +67,5 @@ body {
   transform: scaleY(0.1);
   transform-origin: center center;
 }
+
+

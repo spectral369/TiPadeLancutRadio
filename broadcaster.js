@@ -20,13 +20,11 @@ class Users {
     this._songs = new SQueue();
     this._currentSong = null;
     this.stream = new EventEmitter();
-    //this.songsLength = 0;
     this._currentBitrate = 143360; //default
   }
 
   init() {
     this.addSong(url1);
-    //this._songs.enqueue(url1);
   }
 
   makeResponseSink() {
@@ -65,7 +63,7 @@ class Users {
 
     let audi = ytdl(this._currentSong, { quality: "highestaudio" });
 
-  
+   ///throttleTransformable.setEncoding //de testat
     var throttleTransformable = new Throttle(this._currentBitrate / 8); //test
     throttleTransformable.on("data", (chunk) =>
       this._broadcastToEverySink(chunk)

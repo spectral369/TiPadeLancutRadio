@@ -13,6 +13,7 @@ var favicon = require("serve-favicon");
 let listenersCounter = 0;
 clients = [];
 
+
 void (async function startApp() {
   try {
     Users.init();
@@ -52,6 +53,16 @@ void (async function startApp() {
       console.log("a user connected socketIO");
       listenersCounter++;
       clients.push(socket);
+
+
+
+
+        socket.on('chat message', (msg) => {
+          io.emit('chat message', msg);
+        });
+
+
+
 
       /*ss(socket).on('ready', function(){
         console.log('Here it comes...');
