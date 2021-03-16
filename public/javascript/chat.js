@@ -9,6 +9,7 @@ function showChat(){
   document.getElementById('nameDiv').style.visibility = 'hidden';
   chatUserName  = document.getElementById('chatName').value;
   isNameSet=true;
+  socket.emit('addsocketandname',chatUserName);
 }
 
 var messages = document.getElementById('messages');

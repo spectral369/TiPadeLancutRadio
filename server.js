@@ -50,15 +50,26 @@ void (async function startApp() {
     //test
 
     io.on("connection", (socket) => {
-      console.log("a user connected socketIO");
+     // console.log("a user connected socketIO");
       listenersCounter++;
-      clients.push(socket);
+    
 
 
 
 
         socket.on('chat message', (msg) => {
+          if(msg.length >250)
+            msg = smg.substr(0,250);
           io.emit('chat message', msg);
+        });
+
+        socket.on('addsocketandname', (msg) => {
+          var obj = {};
+          
+          obj['name'] = msg;
+          obj['socket'] = socket;
+          console.log('User connected ', msg);
+          clients.push(obj) ;
         });
 
 
@@ -93,12 +104,21 @@ void (async function startApp() {
         });
       });
       */
-      io.emit("chat message", "send from server");
+    //  io.emit("chat message", "send from server");
 
       socket.on("disconnect", function () {
         listenersCounter--;
-        clients.splice(clients.indexOf(socket), 1);
-        console.log("a user disconnected");
+
+        //<nume>:<socket>
+        for ( var index=0; index<clients.length; index++ ) {
+          if ( clients[index].socket == socket ) {
+            console.log('user disconnected:',clients[index].name);
+            clients.splice(clients[index],1);
+            break;
+          }
+        }
+      //  clients.splice(clients.indexOf(socket), 1);
+       // console.log("a user disconnected");
       });
     });
 
