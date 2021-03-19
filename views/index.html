@@ -4,11 +4,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/public/stylesheets/style.css" />
   <link rel="stylesheet" href="/public/stylesheets/chat.css" />
+  <link rel="stylesheet" href="/public/stylesheets/navbar.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script
-  type="text/javascript"
-  src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
-></script>
- 
+    type="text/javascript"
+    src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"
+  ></script>
+
   <!-- <script
   type="text/javascript"
   src="public/audio5.js"
@@ -21,116 +23,34 @@
     type="text/javascript"
     src="/javascripts/socket.io-stream.js"
   ></script>-->
- 
+
   <script>
     var socket = io();
   </script>
-  <style>
-    #play-music-button {
-      height: 60px;
-      width: 60px;
-      border: none;
-      background-size: 50% 50%;
-      background-position: center;
-    }
-    .buttonPLayStop {
-      background: url("https://image.flaticon.com/icons/png/512/0/375.png")
-        no-repeat;
-    }
-
-    .pause {
-      background: url("https://www.seekpng.com/png/detail/294-2944357_play-video-icon-pause-video-icon-pause-button.png")
-        no-repeat;
-    }
-  </style>
 </head>
 
-<div class="navBar">
-  <a><img src="/public/images/logo.png" class="LogoBar" /></a>
-  <a><button id="play-music-button"  class="buttonPLayStop"></button></a>
-  <audio id="music" autostart="0" autostart="false" preload="none">
-    <source src="/stream" />
-  </audio>
-  <script>
-      /*socket.on('chat message', function(msg) {
-           // alert('chat'+msg);
-            console.log(msg);
-           });*/
 
 
-        $(document).ready(function () {
-
-
-
-          /*
-     ss(socket).emit('ready', 'Client ready, send me a stream...');
-            ss(socket).on('sending', function (stream, d) {
-              //  console.log(stream);
-
-              var blob = new Blob([stream], { 'type': 'aac' });
-
-              let sound = document.createElement('audio');
-              sound.src = window.URL.createObjectURL(blob);
-              document.body.appendChild(sound);
-
-
-              var playPromise = sound.play();
-
-
-              if (playPromise !== undefined) {
-                playPromise.then(function () {
-
-                }).catch(function (error) {
-
-                });
-              }
-
-            });
-
-
-
-          */
-          var music = document.getElementById("music");
-          var play_music_button = document.getElementById("play-music-button");
-
-          function playAudio() {
-
-
-
-            if (music.paused) {
-              music.play();
-              play_music_button.className = "pause";
-            } else {
-              music.pause();
-              play_music_button.className = "play";
-            }
-            music.addEventListener("ended", function () {
-              play_music_button.className = "play";
-            });
-          }
-          play_music_button.addEventListener("click", playAudio);
-          move();
-        });
-
-        
-
-
-
-
-  </script>
-  <!--<a class="sizeEqualizer">EQUALIZER</a>-->
-  <a><div class="equalizer">
-    <div class="equalizer-bar"></div>
-    <div class="equalizer-bar"></div>
-    <div class="equalizer-bar"></div>
-    <div class="equalizer-bar"></div>
-    <div class="equalizer-bar"></div>
-    </div></a>
-  <a href="#info">INFO</a>
-  <a href="#songhistory">SONG HISTORY</a>
-  <a>ADMIN MESSAGE</a>
-  <a href="#chat">CHAT</a>
+<div class="topnav" id="myTopnav">
+  
+<img src="/public/images/logo.png" class="active LogoBar" />
+  <button id="play-music-button"  class="buttonPLayStop"></button>
+ <!-- <a href="#home" class="active">Home</a>-->
+ <!-- <a href="#news">News</a>-->
+ <div class="equalizer">
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  <div class="equalizer-bar"></div>
+  </div>
+  <a href="#info">Info</a>
+  <a href="#chat">Chat</a>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
 </div>
+
 <br /><br /><br /><br /><br /><br /><br /><br />
 {{> info}}
 <br />
@@ -138,25 +58,105 @@
 <br />
 {{> chat}}
 <br />
-{{> test}}
+<!--{{> test}}-->
 
 <br />
 <div class="footer">
   <p>salut</p>
-</div>
+</div><!--
+<audio id="music" autostart="0" autostart="false" preload="none">
+  <source src="/stream" />-->
 
 <script>
-var bars = [].slice.call(document.querySelectorAll('.equalizer-bar'))
+  var bars = [].slice.call(document.querySelectorAll(".equalizer-bar"));
 
-function move() {
-  setTimeout(function() {
-    requestAnimationFrame(move);
+  function move() {
+    setTimeout(function () {
+      requestAnimationFrame(move);
 
-    bars.forEach(function(bar, index) {
-      bar.style.transform = 'scaleY(' + Math.random() + ')';
-    })
-   }, 150);
-}
+      bars.forEach(function (bar, index) {
+        bar.style.transform = "scaleY(" + Math.random() + ")";
+      });
+    }, 150);
+  }
 
+  //test
+  /*socket.on('chat message', function(msg) {
+           // alert('chat'+msg);
+            console.log(msg);
+           });*/
+
+  $(document).ready(function () {
+    /*
+ss(socket).emit('ready', 'Client ready, send me a stream...');
+  ss(socket).on('sending', function (stream, d) {
+    //  console.log(stream);
+
+    var blob = new Blob([stream], { 'type': 'aac' });
+
+    let sound = document.createElement('audio');
+    sound.src = window.URL.createObjectURL(blob);
+    document.body.appendChild(sound);
+
+
+    var playPromise = sound.play();
+
+
+    if (playPromise !== undefined) {
+      playPromise.then(function () {
+
+      }).catch(function (error) {
+
+      });
+    }
+
+  });
+
+
+
+*/
+    var music = document.getElementById("music");
+    var play_music_button = document.getElementById("play-music-button");
+
+    function playAudio() {
+      if (music.paused) {
+        music.play();
+        play_music_button.className = "pause";
+      } else {
+        music.pause();
+        play_music_button.className = "play";
+      }
+      music.addEventListener("ended", function () {
+        play_music_button.className = "play";
+      });
+    }
+    play_music_button.addEventListener("click", playAudio);
+    move();
+  });
+
+  $(document).ready(function () {
+    /* function called when you click of the button */
+    $("button").click(function () {
+      /* this if else to change the text in the button */
+      if ($("button").text() == "☰") {
+        $("button").text("🞬");
+      } else {
+        $("button").text("☰");
+      }
+
+      /* this function toggle the visibility of our "li" elements */
+      $("li").toggle("slow");
+    });
+  });
+
+
+  function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+} 
 </script>
 <script type="text/javascript" src="/public/javascript/chat.js"></script>

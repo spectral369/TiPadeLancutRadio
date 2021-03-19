@@ -109,7 +109,7 @@ void (async function startApp() {
       socket.on("disconnect", function () {
         listenersCounter--;
 
-        //<nume>:<socket>
+        //<nume>:<socket>xit
         for ( var index=0; index<clients.length; index++ ) {
           if ( clients[index].socket == socket ) {
             console.log('user disconnected:',clients[index].name);
