@@ -5,6 +5,8 @@ let isNameSet = false;
 function showChat(){
   document.getElementById('chatArea').style.display = 'block';
   document.getElementById('chatArea').style.visibility = 'visible';
+  document.getElementById('inputChatForm').style.display = 'block';
+  document.getElementById('inputChatForm').style.visibility = 'visible';
   document.getElementById('nameDiv').style.display = 'none';
   document.getElementById('nameDiv').style.visibility = 'hidden';
   chatUserName  = document.getElementById('chatName').value;
